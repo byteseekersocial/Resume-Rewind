@@ -176,3 +176,40 @@ h2 { margin: 16px 0 14px; font-size: clamp(36px,4.5vw,52px); }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+/* Prevent horizontal scrolling on mobile */
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+}
+
+body {
+    position: relative;
+}
+
+/* Prevent grid and flex children from forcing page width */
+.hero > *,
+.compat-section > *,
+.install-layout > *,
+.site-footer > * {
+    min-width: 0;
+}
+
+/* Keep the playback illustration inside the mobile viewport */
+@media (max-width: 680px) {
+    .hero-visual {
+        min-width: 0;
+        width: 100%;
+        overflow: clip;
+    }
+
+    .player-card {
+        max-width: calc(100vw - 44px);
+    }
+
+    .rewind-pill {
+        right: 0;
+    }
+}
