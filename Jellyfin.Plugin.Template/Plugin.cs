@@ -25,7 +25,7 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     private readonly ISessionManager _sessionManager;
     private readonly IUserDataManager _userDataManager;
     private readonly ILogger<Plugin> _logger;
-
+    private readonly UserPreferencesStore _preferencesStore;
     private readonly ConcurrentDictionary<string, long> _sessionStartPositions = new();
 
     /// <summary>
@@ -35,12 +35,14 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     /// <param name="xmlSerializer">The XML serializer.</param>
     /// <param name="sessionManager">The session manager.</param>
     /// <param name="userDataManager">The user data manager.</param>
+    /// <param name="preferencesStore">The user preferences store.</param>
     /// <param name="logger">The plugin logger.</param>
     public Plugin(
         IApplicationPaths applicationPaths,
         IXmlSerializer xmlSerializer,
         ISessionManager sessionManager,
         IUserDataManager userDataManager,
+        UserPreferencesStore preferencesStore,
         ILogger<Plugin> logger)
         : base(applicationPaths, xmlSerializer)
     {
@@ -49,6 +51,7 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
         _sessionManager = sessionManager;
         _userDataManager = userDataManager;
         _logger = logger;
+        _preferencesStore = preferencesStore;
 
         _sessionManager.PlaybackStart += OnPlaybackStart;
         _sessionManager.PlaybackStopped += OnPlaybackStopped;
@@ -142,36 +145,42 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
             return;
         }
 
-        bool enabled = isEpisode
-            ? Configuration.EpisodesEnabled
-            : Configuration.MoviesEnabled;
+        if (e.Users is null)
+{
+    return;
+}
 
-        int seconds = isEpisode
-            ? Configuration.EpisodeRewindSeconds
-            : Configuration.MovieRewindSeconds;
+        foreach (User user in e.Users)
+{
+    try
+    {
+        UserPreferences preferences = _preferencesStore.Get(user.Id);
+
+        bool hasCustomSettings = isEpisode
+            ? preferences.HasCustomEpisodeSettings
+            : preferences.HasCustomMovieSettings;
+
+        bool enabled = hasCustomSettings
+            ? (isEpisode ? preferences.EpisodesEnabled : preferences.MoviesEnabled)
+            : (isEpisode ? Configuration.EpisodesEnabled : Configuration.MoviesEnabled);
+
+        int seconds = hasCustomSettings
+            ? (isEpisode ? preferences.EpisodeRewindSeconds : preferences.MovieRewindSeconds)
+            : (isEpisode ? Configuration.EpisodeRewindSeconds : Configuration.MovieRewindSeconds);
+
+        seconds = Math.Clamp(seconds, 0, 60);
 
         if (!enabled || seconds <= 0)
         {
-            return;
+            continue;
         }
-
-        seconds = Math.Clamp(seconds, 0, 60);
 
         long rewindTicks = TimeSpan.FromSeconds(seconds).Ticks;
         long adjustedPosition = Math.Max(0, finalPosition - rewindTicks);
 
-        if (e.Users is null)
-        {
-            return;
-        }
+        UserItemData? data = _userDataManager.GetUserData(user, e.Item);
 
-        foreach (User user in e.Users)
-        {
-            try
-            {
-                UserItemData? data = _userDataManager.GetUserData(user, e.Item);
-
-                if (data is null)
+        if (data is null)
                 {
                     _logger.LogWarning(
                         "Could not find user data for {Item} ({User}).",
@@ -181,16 +190,16 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
                     continue;
                 }
 
-                data.PlaybackPositionTicks = adjustedPosition;
+        data.PlaybackPositionTicks = adjustedPosition;
 
-                _userDataManager.SaveUserData(
+        _userDataManager.SaveUserData(
                     user,
                     e.Item,
                     data,
                     UserDataSaveReason.PlaybackFinished,
                     CancellationToken.None);
 
-                _logger.LogInformation(
+        _logger.LogInformation(
                     "Resume Rewind: rewound {Seconds} seconds for {Item} ({User}).",
                     seconds,
                     e.Item.Name,
