@@ -1,25 +1,9 @@
 using MediaBrowser.Model.Plugins;
 
-namespace Jellyfin.Plugin.Template.Configuration;
+namespace ResumeRewind.Configuration;
 
 /// <summary>
-/// The configuration options.
-/// </summary>
-public enum SomeOptions
-{
-    /// <summary>
-    /// Option one.
-    /// </summary>
-    OneOption,
-
-    /// <summary>
-    /// Second option.
-    /// </summary>
-    AnotherOption
-}
-
-/// <summary>
-/// Plugin configuration.
+/// Administrator defaults for Resume Rewind.
 /// </summary>
 public class PluginConfiguration : BasePluginConfiguration
 {
@@ -28,30 +12,30 @@ public class PluginConfiguration : BasePluginConfiguration
     /// </summary>
     public PluginConfiguration()
     {
-        // set default options here
-        Options = SomeOptions.AnotherOption;
-        TrueFalseSetting = true;
-        AnInteger = 2;
-        AString = "string";
+        EpisodesEnabled = true;
+        EpisodeRewindSeconds = 10;
+
+        MoviesEnabled = true;
+        MovieRewindSeconds = 10;
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether some true or false setting is enabled..
+    /// Gets or sets a value indicating whether episode rewind is enabled by default.
     /// </summary>
-    public bool TrueFalseSetting { get; set; }
+    public bool EpisodesEnabled { get; set; }
 
     /// <summary>
-    /// Gets or sets an integer setting.
+    /// Gets or sets the default episode rewind duration.
     /// </summary>
-    public int AnInteger { get; set; }
+    public int EpisodeRewindSeconds { get; set; }
 
     /// <summary>
-    /// Gets or sets a string setting.
+    /// Gets or sets a value indicating whether movie rewind is enabled by default.
     /// </summary>
-    public string AString { get; set; }
+    public bool MoviesEnabled { get; set; }
 
     /// <summary>
-    /// Gets or sets an enum option.
+    /// Gets or sets the default movie rewind duration.
     /// </summary>
-    public SomeOptions Options { get; set; }
+    public int MovieRewindSeconds { get; set; }
 }

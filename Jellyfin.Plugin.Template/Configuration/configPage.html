@@ -1,78 +1,173 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Template</title>
+    <title>Resume Rewind</title>
 </head>
 <body>
-    <div id="TemplateConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-select,emby-checkbox">
+    <div id="ResumeRewindConfigPage"
+         data-role="page"
+         class="page type-interior pluginConfigurationPage"
+         data-require="emby-input,emby-button,emby-checkbox">
+
         <div data-role="content">
             <div class="content-primary">
-                <form id="TemplateConfigForm">
-                    <div class="selectContainer">
-                        <label class="selectLabel" for="Options">Several Options</label>
-                        <select is="emby-select" id="Options" name="Options" class="emby-select-withcolor emby-select">
-                            <option id="optOneOption" value="OneOption">One Option</option>
-                            <option id="optAnotherOption" value="AnotherOption">Another Option</option>
-                        </select>
-                    </div>
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="AnInteger">An Integer</label>
-                        <input id="AnInteger" name="AnInteger" type="number" is="emby-input" min="0" />
-                        <div class="fieldDescription">A Description</div>
-                    </div>
-                    <div class="checkboxContainer checkboxContainer-withDescription">
+
+                <h2>Resume Rewind</h2>
+                <p>
+                    Configure the default rewind behavior for users
+                    on this Jellyfin server.
+                </p>
+
+                <form id="ResumeRewindConfigForm">
+
+                    <h3>TV Episodes</h3>
+
+                    <div class="checkboxContainer">
                         <label class="emby-checkbox-label">
-                            <input id="TrueFalseSetting" name="TrueFalseCheckBox" type="checkbox" is="emby-checkbox" />
-                            <span>A Checkbox</span>
+                            <input id="EpisodesEnabled"
+                                   type="checkbox"
+                                   is="emby-checkbox">
+                            <span>Enable episode rewind by default</span>
                         </label>
                     </div>
+
                     <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="AString">A String</label>
-                        <input id="AString" name="AString" type="text" is="emby-input" />
-                        <div class="fieldDescription">Another Description</div>
+                        <label class="inputLabel" for="EpisodeRewindSeconds">
+                            Default episode rewind (seconds)
+                        </label>
+                        <input id="EpisodeRewindSeconds"
+                               type="number"
+                               is="emby-input"
+                               min="0"
+                               max="60"
+                               step="1">
+                        <div class="fieldDescription">
+                            Choose a value between 0 and 60 seconds.
+                        </div>
                     </div>
-                    <div>
-                        <button is="emby-button" type="submit" class="raised button-submit block emby-button">
-                            <span>Save</span>
-                        </button>
+
+                    <br>
+
+                    <h3>Movies</h3>
+
+                    <div class="checkboxContainer">
+                        <label class="emby-checkbox-label">
+                            <input id="MoviesEnabled"
+                                   type="checkbox"
+                                   is="emby-checkbox">
+                            <span>Enable movie rewind by default</span>
+                        </label>
                     </div>
+
+                    <div class="inputContainer">
+                        <label class="inputLabel" for="MovieRewindSeconds">
+                            Default movie rewind (seconds)
+                        </label>
+                        <input id="MovieRewindSeconds"
+                               type="number"
+                               is="emby-input"
+                               min="0"
+                               max="60"
+                               step="1">
+                        <div class="fieldDescription">
+                            Choose a value between 0 and 60 seconds.
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <button is="emby-button"
+                            type="submit"
+                            class="raised button-submit block">
+                        <span>Save</span>
+                    </button>
+
                 </form>
             </div>
         </div>
-        <script type="text/javascript">
-            var TemplateConfig = {
-                pluginUniqueId: 'eb5d7894-8eef-4b36-aa6f-5d124e828ce1'
+
+        <script>
+            const ResumeRewindConfig = {
+                pluginUniqueId: '95d6f48a-397e-4206-b97a-8474a864c7fe'
             };
 
-            document.querySelector('#TemplateConfigPage')
-                .addEventListener('pageshow', function() {
-                    Dashboard.showLoadingMsg();
-                    ApiClient.getPluginConfiguration(TemplateConfig.pluginUniqueId).then(function (config) {
-                        document.querySelector('#Options').value = config.Options;
-                        document.querySelector('#AnInteger').value = config.AnInteger;
-                        document.querySelector('#TrueFalseSetting').checked = config.TrueFalseSetting;
-                        document.querySelector('#AString').value = config.AString;
-                        Dashboard.hideLoadingMsg();
-                    });
-                });
+            const configPage =
+                document.querySelector('#ResumeRewindConfigPage');
 
-            document.querySelector('#TemplateConfigForm')
-                .addEventListener('submit', function(e) {
+            configPage.addEventListener('pageshow', function () {
                 Dashboard.showLoadingMsg();
-                ApiClient.getPluginConfiguration(TemplateConfig.pluginUniqueId).then(function (config) {
-                    config.Options = document.querySelector('#Options').value;
-                    config.AnInteger = document.querySelector('#AnInteger').value;
-                    config.TrueFalseSetting = document.querySelector('#TrueFalseSetting').checked;
-                    config.AString = document.querySelector('#AString').value;
-                    ApiClient.updatePluginConfiguration(TemplateConfig.pluginUniqueId, config).then(function (result) {
+
+                ApiClient.getPluginConfiguration(
+                    ResumeRewindConfig.pluginUniqueId
+                ).then(function (config) {
+                    document.querySelector('#EpisodesEnabled').checked =
+                        config.EpisodesEnabled;
+
+                    document.querySelector('#EpisodeRewindSeconds').value =
+                        config.EpisodeRewindSeconds;
+
+                    document.querySelector('#MoviesEnabled').checked =
+                        config.MoviesEnabled;
+
+                    document.querySelector('#MovieRewindSeconds').value =
+                        config.MovieRewindSeconds;
+
+                    Dashboard.hideLoadingMsg();
+                }).catch(function (error) {
+                    console.error('Resume Rewind configuration error:', error);
+                    Dashboard.hideLoadingMsg();
+                });
+            });
+
+            document.querySelector('#ResumeRewindConfigForm')
+                .addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    Dashboard.showLoadingMsg();
+
+                    ApiClient.getPluginConfiguration(
+                        ResumeRewindConfig.pluginUniqueId
+                    ).then(function (config) {
+                        config.EpisodesEnabled =
+                            document.querySelector('#EpisodesEnabled').checked;
+
+                        config.EpisodeRewindSeconds = Number(
+                            document.querySelector('#EpisodeRewindSeconds').value
+                        );
+
+                        config.MoviesEnabled =
+                            document.querySelector('#MoviesEnabled').checked;
+
+                        config.MovieRewindSeconds = Number(
+                            document.querySelector('#MovieRewindSeconds').value
+                        );
+
+                        if (
+                            !Number.isInteger(config.EpisodeRewindSeconds) ||
+                            !Number.isInteger(config.MovieRewindSeconds) ||
+                            config.EpisodeRewindSeconds < 0 ||
+                            config.EpisodeRewindSeconds > 60 ||
+                            config.MovieRewindSeconds < 0 ||
+                            config.MovieRewindSeconds > 60
+                        ) {
+                            throw new Error(
+                                'Rewind durations must be whole numbers between 0 and 60.'
+                            );
+                        }
+
+                        return ApiClient.updatePluginConfiguration(
+                            ResumeRewindConfig.pluginUniqueId,
+                            config
+                        );
+                    }).then(function (result) {
                         Dashboard.processPluginConfigurationUpdateResult(result);
+                    }).catch(function (error) {
+                        console.error('Resume Rewind save error:', error);
+                        Dashboard.hideLoadingMsg();
+                        alert(error.message || 'Unable to save configuration.');
                     });
                 });
-
-                e.preventDefault();
-                return false;
-            });
         </script>
     </div>
 </body>
