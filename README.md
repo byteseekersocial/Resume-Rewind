@@ -117,9 +117,8 @@ The `testing` branch is used for active development and testing. Once changes ar
 - [x] Roku compatibility.
 - [x] Automated GitHub release workflow.
 - [ ] Per-user rewind preferences.
-- [ ] Additional client compatibility testing.
 - [ ] More configuration options.
-- [ ] Stable release through the `latest` branch.
+- [x] Stable release through the `latest` branch.
 
 ## License
 
