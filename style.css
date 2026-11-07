@@ -99,13 +99,14 @@ h2 { margin: 16px 0 14px; font-size: clamp(36px,4.5vw,52px); }
 .compat-panel { padding: 12px 22px; border: 1px solid var(--line); border-radius: 14px; background: #171c24; }
 .compat-row { display: flex; align-items: center; gap: 13px; padding: 17px 0; border-bottom: 1px solid var(--line); }
 .client-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 10px; background: #168de21c; color: #60baff; font-family: var(--display); font-weight: 700; }
-.client-icon.roku { color: #ff7777; background: #ff45451c; }
-.client-icon.iOS { color: #30D158; background: #30D1581c; }
+/*.client-icon.roku { color: #ff7777; background: #ff45451c; }
+.client-icon.iOS { color: #30D158; background: #30D1581c; } */
 .client-name { display: flex; flex: 1; flex-direction: column; }
 .client-name strong { font-size: 13px; }
 .client-name small { color: #858e9c; font-size: 10px; }
 .status { padding: 5px 9px; border-radius: 30px; font-size: 9px; font-weight: 700; }
 .status-good { color: #43e89a; background: #00df7818; }
+.status-bad { color: #ff7777; background: #ff454518; }
 .compat-footnote { padding: 15px 0 8px; color: #8993a1; font-size: 10px; line-height: 1.6; }
 .install-section { padding-top: 105px; padding-bottom: 110px; }
 .install-layout { display: grid; grid-template-columns: 1fr .85fr; align-items: start; gap: 55px; }
@@ -175,4 +176,61 @@ h2 { margin: 16px 0 14px; font-size: clamp(36px,4.5vw,52px); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* Confirmed clients */
+.client-icon.roku {
+    color: #ff7777;
+    background: #ff45451c;
+}
+
+.client-icon.iOS {
+    color: #30D158;
+    background: #30D1581c;
+}
+
+.client-icon.android {
+    color: #3ddc84;
+    background: #3ddc841c;
+}
+
+.client-icon.xbox {
+    color: #65d64b;
+    background: #65d64b1c;
+}
+
+.client-icon.desktop {
+    color: #b69cff;
+    background: #9b78ff1c;
+}
+
+/* Untested clients */
+.client-icon.android-tv {
+    color: #a4c639;
+    background: #a4c6391c;
+}
+
+.client-icon.swiftfin {
+    color: #70a7ff;
+    background: #70a7ff1c;
+}
+
+.client-icon.tizen {
+    color: #4b9eff;
+    background: #4b9eff1c;
+}
+
+.client-icon.webos {
+    color: #e56bff;
+    background: #e56bff1c;
+}
+
+.client-icon.google {
+    color: #4285f4;
+    background: #4285f41c;
+}
+
+.client-icon.other {
+    color: #aaaaaa;
+    background: #aaaaaa1c;
 }
