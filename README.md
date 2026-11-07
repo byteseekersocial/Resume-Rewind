@@ -33,7 +33,7 @@ The following clients are currently **known to work**:
 | Android TV | Not yet tested |
 | Android Mobile | Confirmed working |
 | iOS | Confirmed working |
-| Swiftfin | Not yet tested |
+| Swiftfin | Confirmed working |
 | Xbox client | Confirmed working |
 | Tizen TV | Not yet tested |
 | WebOS Client | Not yet tested |
