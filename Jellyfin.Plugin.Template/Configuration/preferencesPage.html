@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resume Rewind Preferences</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            color: var(--text-color, #eee);
+            background: var(--background-color, #171717);
+        }
+
+        .setting {
+            margin: 20px 0;
+            padding: 18px;
+            border-radius: 8px;
+            background: var(--card-background, #252525);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="number"] {
+            width: 90px;
+            padding: 8px;
+        }
+
+        button {
+            padding: 9px 15px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .status {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Resume Rewind</h1>
+    <p>Customize how far playback rewinds when you stop watching.</p>
+
+    <div class="setting">
+        <h2>Episodes</h2>
+        <label>
+            <input type="checkbox" id="episodesEnabled">
+            Enable episode rewind
+        </label>
+        <label>
+            Rewind seconds (0–60):
+            <input type="number" id="episodeSeconds" min="0" max="60">
+        </label>
+        <button type="button" id="resetEpisodes">Use server defaults</button>
+    </div>
+
+    <div class="setting">
+        <h2>Movies</h2>
+        <label>
+            <input type="checkbox" id="moviesEnabled">
+            Enable movie rewind
+        </label>
+        <label>
+            Rewind seconds (0–60):
+            <input type="number" id="movieSeconds" min="0" max="60">
+        </label>
+        <button type="button" id="resetMovies">Use server defaults</button>
+    </div>
+
+    <button type="button" id="save">Save preferences</button>
+    <p class="status" id="status" role="status"></p>
+
+    <script>
+        const apiUrl = ApiClient.getUrl("ResumeRewind/Preferences");
+
+        let preferences = {};
+
+        const status = document.getElementById("status");
+
+        function showStatus(message) {
+            status.textContent = message;
+        }
+
+        function loadPreferences() {
+            ApiClient.ajax({
+                type: "GET",
+                url: apiUrl,
+                dataType: "json"
+            }).then(data => {
+                preferences = data;
+
+                document.getElementById("episodesEnabled").checked =
+                    data.episodesEnabled;
+
+                document.getElementById("episodeSeconds").value =
+                    data.episodeRewindSeconds;
+
+                document.getElementById("moviesEnabled").checked =
+                    data.moviesEnabled;
+
+                document.getElementById("movieSeconds").value =
+                    data.movieRewindSeconds;
+            }).catch(error => {
+                console.error(error);
+                showStatus("Could not load your preferences.");
+            });
+        }
+
+        function resetEpisodes() {
+            preferences.hasCustomEpisodeSettings = false;
+            loadPreferences();
+            showStatus("Episode settings will use server defaults after saving.");
+        }
+
+        function resetMovies() {
+            preferences.hasCustomMovieSettings = false;
+            loadPreferences();
+            showStatus("Movie settings will use server defaults after saving.");
+        }
+
+        function savePreferences() {
+            const episodeSeconds = Number(
+                document.getElementById("episodeSeconds").value
+            );
+
+            const movieSeconds = Number(
+                document.getElementById("movieSeconds").value
+            );
+
+            if (
+                !Number.isInteger(episodeSeconds) ||
+                !Number.isInteger(movieSeconds) ||
+                episodeSeconds < 0 ||
+                episodeSeconds > 60 ||
+                movieSeconds < 0 ||
+                movieSeconds > 60
+            ) {
+                showStatus("Rewind seconds must be whole numbers from 0 to 60.");
+                return;
+            }
+
+            preferences.episodesEnabled =
+                document.getElementById("episodesEnabled").checked;
+
+            preferences.episodeRewindSeconds = episodeSeconds;
+
+            preferences.moviesEnabled =
+                document.getElementById("moviesEnabled").checked;
+
+            preferences.movieRewindSeconds = movieSeconds;
+
+            preferences.hasCustomEpisodeSettings =
+                preferences.hasCustomEpisodeSettings !== false;
+
+            preferences.hasCustomMovieSettings =
+                preferences.hasCustomMovieSettings !== false;
+
+            ApiClient.ajax({
+                type: "PUT",
+                url: apiUrl,
+                data: JSON.stringify(preferences),
+                contentType: "application/json"
+            }).then(() => {
+                showStatus("Preferences saved successfully.");
+            }).catch(error => {
+                console.error(error);
+                showStatus("Could not save your preferences.");
+            });
+        }
+
+        document.getElementById("resetEpisodes")
+            .addEventListener("click", resetEpisodes);
+
+        document.getElementById("resetMovies")
+            .addEventListener("click", resetMovies);
+
+        document.getElementById("episodesEnabled")
+            .addEventListener("change", () => {
+                preferences.hasCustomEpisodeSettings = true;
+            });
+
+        document.getElementById("episodeSeconds")
+            .addEventListener("input", () => {
+                preferences.hasCustomEpisodeSettings = true;
+            });
+
+        document.getElementById("moviesEnabled")
+            .addEventListener("change", () => {
+                preferences.hasCustomMovieSettings = true;
+            });
+
+        document.getElementById("movieSeconds")
+            .addEventListener("input", () => {
+                preferences.hasCustomMovieSettings = true;
+            });
+
+        document.getElementById("save")
+            .addEventListener("click", savePreferences);
+
+        loadPreferences();
+    </script>
+</body>
+</html>

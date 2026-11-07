@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using MediaBrowser.Controller.Net;
 using Microsoft.AspNetCore.Authorization;
@@ -32,9 +33,30 @@ public class UserPreferencesController : ControllerBase
     }
 
     /// <summary>
+    /// Serves the Resume Rewind user preferences page.
+    /// </summary>
+    /// <returns>The embedded preferences HTML page.</returns>
+    [HttpGet("/ResumeRewind/PreferencesPage")]
+    public IActionResult GetPreferencesPage()
+    {
+        using Stream? stream = typeof(UserPreferencesController).Assembly
+            .GetManifestResourceStream(
+                "ResumeRewind.Configuration.preferencesPage.html");
+
+        if (stream is null)
+        {
+            return NotFound("Resume Rewind preferences page was not found.");
+        }
+
+        using StreamReader reader = new(stream);
+
+        return Content(reader.ReadToEnd(), "text/html");
+    }
+
+    /// <summary>
     /// Gets the authenticated user's preferences.
     /// </summary>
-    /// <returns>The current user's preferences.</returns>
+    /// <returns>The current user's effective preferences.</returns>
     [HttpGet]
     public async Task<ActionResult<UserPreferences>> GetPreferences()
     {
@@ -48,7 +70,25 @@ public class UserPreferencesController : ControllerBase
             return Unauthorized();
         }
 
-        return Ok(_preferencesStore.Get(authorizationInfo.UserId));
+        UserPreferences preferences =
+            _preferencesStore.Get(authorizationInfo.UserId);
+
+        PluginConfiguration defaults =
+            Plugin.Instance?.Configuration ?? new PluginConfiguration();
+
+        if (!preferences.HasCustomEpisodeSettings)
+        {
+            preferences.EpisodesEnabled = defaults.EpisodesEnabled;
+            preferences.EpisodeRewindSeconds = defaults.EpisodeRewindSeconds;
+        }
+
+        if (!preferences.HasCustomMovieSettings)
+        {
+            preferences.MoviesEnabled = defaults.MoviesEnabled;
+            preferences.MovieRewindSeconds = defaults.MovieRewindSeconds;
+        }
+
+        return Ok(preferences);
     }
 
     /// <summary>
