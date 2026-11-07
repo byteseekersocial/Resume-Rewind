@@ -31,9 +31,14 @@ The following clients are currently **known to work**:
 | Jellyfin Web | Confirmed working |
 | Roku | Confirmed working |
 | Android TV | Not yet tested |
-| Android Mobile | Not yet tested |
+| Android Mobile | Confirmed working |
 | iOS | Confirmed working |
-| Desktop clients | Not yet tested |
+| Swiftfin | Not yet tested |
+| Xbox client | Confirmed working |
+| Tizen TV | Not yet tested |
+| WebOS Client | Not yet tested |
+| Google TV | Not yet tested |
+| Desktop clients | Confirmed working |
 | Other clients | Not yet tested |
 
 Compatibility with untested clients is not guaranteed. Additional testing and community feedback are welcome!
