@@ -9,6 +9,14 @@
     "category": "General",
     "versions": [
       {
+      "version": "0.1.1.0",
+      "changelog": "Version 0.1.1.0",
+      "targetAbi": "12.4.0.0",
+      "sourceUrl": "https://github.com/byteseekersocial/Resume-Rewind/releases/download/latest-v0.1.1.0/resume-rewind_0.1.1.0.zip",
+      "checksum": "D10EB3256B331DFBD9ACA0857035B17F"
+      "timestamp": "2026-11-07T17:29:44Z"
+      },
+      {
         "version": "0.1.0.0",
         "changelog": "Initial stable release.",
         "targetAbi": "12.4.0.0",
