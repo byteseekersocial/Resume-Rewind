@@ -4,6 +4,7 @@
     "name": "Resume Rewind",
     "description": "Automatically rewinds playback when resuming movies and TV episodes.",
     "overview": "Never miss the ending of a scene. Resume Rewind lets you rewind movies and TV episodes when continuing playback.",
+    "imageUrl": "https://raw.githubusercontent.com/byteseekersocial/Resume-Rewind/latest/img/catLogo.png"
     "owner": "byteseekersocial",
     "category": "General",
     "versions": [
