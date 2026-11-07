@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ResumeRewind</name>
+    </assembly>
+    <members>
+        <member name="T:ResumeRewind.Configuration.PluginConfiguration">
+            <summary>
+            Administrator defaults for Resume Rewind.
+            </summary>
+        </member>
+        <member name="M:ResumeRewind.Configuration.PluginConfiguration.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ResumeRewind.Configuration.PluginConfiguration"/> class.
+            </summary>
+        </member>
+        <member name="P:ResumeRewind.Configuration.PluginConfiguration.EpisodesEnabled">
+            <summary>
+            Gets or sets a value indicating whether episode rewind is enabled by default.
+            </summary>
+        </member>
+        <member name="P:ResumeRewind.Configuration.PluginConfiguration.EpisodeRewindSeconds">
+            <summary>
+            Gets or sets the default episode rewind duration.
+            </summary>
+        </member>
+        <member name="P:ResumeRewind.Configuration.PluginConfiguration.MoviesEnabled">
+            <summary>
+            Gets or sets a value indicating whether movie rewind is enabled by default.
+            </summary>
+        </member>
+        <member name="P:ResumeRewind.Configuration.PluginConfiguration.MovieRewindSeconds">
+            <summary>
+            Gets or sets the default movie rewind duration.
+            </summary>
+        </member>
+        <member name="T:ResumeRewind.Plugin">
+            <summary>
+            The main Resume Rewind plugin.
+            </summary>
+        </member>
+        <member name="M:ResumeRewind.Plugin.#ctor(MediaBrowser.Common.Configuration.IApplicationPaths,MediaBrowser.Model.Serialization.IXmlSerializer,MediaBrowser.Controller.Session.ISessionManager,MediaBrowser.Controller.Library.IUserDataManager,Microsoft.Extensions.Logging.ILogger{ResumeRewind.Plugin})">
+            <summary>
+            Initializes a new instance of the <see cref="T:ResumeRewind.Plugin"/> class.
+            </summary>
+            <param name="applicationPaths">The application paths.</param>
+            <param name="xmlSerializer">The XML serializer.</param>
+            <param name="sessionManager">The session manager.</param>
+            <param name="userDataManager">The user data manager.</param>
+            <param name="logger">The plugin logger.</param>
+        </member>
+        <member name="P:ResumeRewind.Plugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:ResumeRewind.Plugin.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:ResumeRewind.Plugin.Instance">
+            <summary>
+            Gets the current plugin instance.
+            </summary>
+        </member>
+        <member name="M:ResumeRewind.Plugin.GetPages">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
