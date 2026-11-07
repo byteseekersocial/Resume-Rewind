@@ -1,6 +1,5 @@
 <Solution>
   <Folder Name="/Jellyfin.Plugin.Template/">
-    <Project Path="Jellyfin.Plugin.Template/Jellyfin.Plugin.Template.csproj.old" Type="C#" />
   </Folder>
   <Project Path="Jellyfin.Plugin.Template/Jellyfin.Plugin.Template.csproj" />
 </Solution>
