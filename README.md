@@ -31,9 +31,14 @@ The following clients are currently **known to work**:
 | Jellyfin Web | Confirmed working |
 | Roku | Confirmed working |
 | Android TV | Not yet tested |
-| Android Mobile | Not yet tested |
-| iOS | Not yet tested |
-| Desktop clients | Not yet tested |
+| Android Mobile | Confirmed working |
+| iOS | Confirmed working |
+| Swiftfin | Confirmed working |
+| Xbox client | Confirmed working |
+| Tizen TV | Not yet tested |
+| WebOS Client | Not yet tested |
+| Google TV | Not yet tested |
+| Desktop clients | Confirmed working |
 | Other clients | Not yet tested |
 
 Compatibility with untested clients is not guaranteed. Additional testing and community feedback are welcome!
@@ -65,12 +70,14 @@ Resume Rewind is distributed through a Jellyfin plugin repository.
    **Repository Name:** Resume Rewind Testing
 
    **Repository URL:**
+   `https://raw.githubusercontent.com/byteseekersocial/Resume-Rewind/latest/manifest.json`
+   **Testing URL:**
    `https://raw.githubusercontent.com/byteseekersocial/Resume-Rewind/testing/manifest.json`
 
-4. Save the repository and refresh the plugin catalog.
-5. Find **Resume Rewind** and install it.
-6. Restart your Jellyfin server.
-7. Open the Resume Rewind configuration page under your installed plugins.
+5. Save the repository and refresh the plugin catalog.
+6. Find **Resume Rewind** and install it.
+7. Restart your Jellyfin server.
+8. Open the Resume Rewind configuration page under your installed plugins.
 
 > **Note:** The `testing` repository contains development releases. Features and behavior may change as development continues.
 
@@ -110,9 +117,8 @@ The `testing` branch is used for active development and testing. Once changes ar
 - [x] Roku compatibility.
 - [x] Automated GitHub release workflow.
 - [ ] Per-user rewind preferences.
-- [ ] Additional client compatibility testing.
 - [ ] More configuration options.
-- [ ] Stable release through the `latest` branch.
+- [x] Stable release through the `latest` branch.
 
 ## License
 
