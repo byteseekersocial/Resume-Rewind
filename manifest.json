@@ -1,18 +1,20 @@
-{
-  "guid": "95d6f48a-397e-4206-b97a-8474a864c7fe",
-  "name": "Resume Rewind",
-  "description": "Automatically rewinds playback when resuming movies and TV episodes.",
-  "overview": "Never miss the ending of a scene. Resume Rewind lets you rewind movies and TV episodes when continuing playback.",
-  "owner": "byteseekersocial",
-  "category": "General",
-  "versions": [
-    {
-      "version": "0.1.0.0",
-      "changelog": "Initial stable release.",
-      "targetAbi": "12.4.0.0",
-      "sourceUrl": "https://github.com/byteseekersocial/Resume-Rewind/releases/download/latest-v0.1.0.0/resume-rewind_0.1.0.0.zip",
-      "checksum": "41369F20BCBE01D1717C63879CE2BE68",
-      "timestamp": "2026-11-07T10:48:00Z"
-    }
-  ]
-}
+[
+  {
+    "guid": "95d6f48a-397e-4206-b97a-8474a864c7fe",
+    "name": "Resume Rewind",
+    "description": "Automatically rewinds playback when resuming movies and TV episodes.",
+    "overview": "Never miss the ending of a scene. Resume Rewind lets you rewind movies and TV episodes when continuing playback.",
+    "owner": "byteseekersocial",
+    "category": "General",
+    "versions": [
+      {
+        "version": "0.1.0.0",
+        "changelog": "Initial stable release.",
+        "targetAbi": "12.4.0.0",
+        "sourceUrl": "https://github.com/byteseekersocial/Resume-Rewind/releases/download/latest-v0.1.0.0/resume-rewind_0.1.0.0.zip",
+        "checksum": "41369F20BCBE01D1717C63879CE2BE68",
+        "timestamp": "2026-11-07T10:59:08Z"
+      }
+    ]
+  }
+]
