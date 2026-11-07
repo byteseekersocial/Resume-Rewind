@@ -32,7 +32,7 @@ The following clients are currently **known to work**:
 | Roku | Confirmed working |
 | Android TV | Not yet tested |
 | Android Mobile | Not yet tested |
-| iOS | Not yet tested |
+| iOS | Confirmed working |
 | Desktop clients | Not yet tested |
 | Other clients | Not yet tested |
 
