@@ -65,12 +65,14 @@ Resume Rewind is distributed through a Jellyfin plugin repository.
    **Repository Name:** Resume Rewind Testing
 
    **Repository URL:**
+   `https://raw.githubusercontent.com/byteseekersocial/Resume-Rewind/latest/manifest.json`
+   **Testing URL:**
    `https://raw.githubusercontent.com/byteseekersocial/Resume-Rewind/testing/manifest.json`
 
-4. Save the repository and refresh the plugin catalog.
-5. Find **Resume Rewind** and install it.
-6. Restart your Jellyfin server.
-7. Open the Resume Rewind configuration page under your installed plugins.
+5. Save the repository and refresh the plugin catalog.
+6. Find **Resume Rewind** and install it.
+7. Restart your Jellyfin server.
+8. Open the Resume Rewind configuration page under your installed plugins.
 
 > **Note:** The `testing` repository contains development releases. Features and behavior may change as development continues.
 
