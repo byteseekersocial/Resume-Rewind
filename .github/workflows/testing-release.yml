@@ -1,0 +1,134 @@
+
+name: Build and Publish Testing Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build Resume Rewind
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout testing branch
+        uses: actions/checkout@v6
+        with:
+          ref: testing
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Install JPRM
+        run: pipx install jprm
+
+      - name: Read plugin metadata
+        id: metadata
+        shell: bash
+        run: |
+          VERSION=$(sed -n 's/^version: "\(.*\)"/\1/p' build.yaml)
+          ABI=$(sed -n 's/^targetAbi: "\(.*\)"/\1/p' build.yaml)
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "abi=$ABI" >> "$GITHUB_OUTPUT"
+          echo "tag=testing-v$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Build plugin package
+        run: |
+          mkdir -p artifacts
+          jprm --verbosity=info plugin build . --output ./artifacts
+
+          ZIP=$(find ./artifacts -maxdepth 1 -type f -name '*.zip' | head -n 1)
+
+          if [ -z "$ZIP" ]; then
+            echo "Plugin ZIP was not generated."
+            exit 1
+          fi
+
+          echo "ZIP_PATH=$ZIP" >> "$GITHUB_ENV"
+
+      - name: Create GitHub prerelease
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.metadata.outputs.tag }}" \
+            "$ZIP_PATH" \
+            --target testing \
+            --prerelease \
+            --title "Resume Rewind ${{ steps.metadata.outputs.version }}" \
+            --notes "Testing release of Resume Rewind."
+
+      - name: Update plugin manifest
+        env:
+          VERSION: ${{ steps.metadata.outputs.version }}
+          ABI: ${{ steps.metadata.outputs.abi }}
+          TAG: ${{ steps.metadata.outputs.tag }}
+          ZIP_PATH: ${{ env.ZIP_PATH }}
+        run: |
+          python3 <<'PY'
+          import hashlib
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          manifest_path = Path("manifest.json")
+          manifest = json.loads(manifest_path.read_text())
+
+          guid = "95d6f48a-397e-4206-b97a-8474a864c7fe"
+          version = os.environ["VERSION"]
+          abi = os.environ["ABI"]
+          tag = os.environ["TAG"]
+          zip_path = Path(os.environ["ZIP_PATH"])
+
+          checksum = hashlib.md5(zip_path.read_bytes()).hexdigest()
+          filename = zip_path.name
+
+          source_url = (
+              f"https://github.com/{os.environ['GITHUB_REPOSITORY']}"
+              f"/releases/download/{tag}/{filename}"
+          )
+
+          plugin = next(
+              (item for item in manifest if item["guid"] == guid),
+              None
+          )
+
+          if plugin is None:
+              raise RuntimeError("Resume Rewind entry not found in manifest.")
+
+          plugin["versions"] = [
+              item for item in plugin["versions"]
+              if item["version"] != version
+          ]
+
+          plugin["versions"].insert(0, {
+              "version": version,
+              "changelog": "Testing release.",
+              "targetAbi": abi,
+              "sourceUrl": source_url,
+              "checksum": checksum,
+              "timestamp": datetime.now(timezone.utc).isoformat()
+          })
+
+          manifest_path.write_text(
+              json.dumps(manifest, indent=2) + "\n"
+          )
+
+          print(f"Updated manifest for Resume Rewind {version}")
+          print(f"Package: {source_url}")
+          print(f"MD5: {checksum}")
+          PY
+
+      - name: Commit updated manifest
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add manifest.json
+          git commit -m "Update Resume Rewind testing manifest"
+          git push origin HEAD:testing
