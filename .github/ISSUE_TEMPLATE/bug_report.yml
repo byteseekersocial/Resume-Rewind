@@ -1,0 +1,119 @@
+
+name: Bug Report
+description: Report a problem or unexpected behavior with Resume Rewind.
+title: "[Bug]: "
+labels:
+  - bug
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug!
+
+        Before submitting, please check existing issues to see if someone has already reported the same problem.
+
+  - type: dropdown
+    id: client
+    attributes:
+      label: Jellyfin Client
+      description: Where are you experiencing this issue?
+      options:
+        - Jellyfin Web (Browser)
+        - Jellyfin for iOS
+        - Roku
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: client_version
+    attributes:
+      label: Client Version
+      description: What version of the Jellyfin client are you using?
+      placeholder: e.g. Jellyfin Web 12.4.0 or Roku 2.2.0
+    validations:
+      required: false
+
+  - type: input
+    id: server_version
+    attributes:
+      label: Jellyfin Server Version
+      description: What version of Jellyfin Server are you running?
+      placeholder: e.g. 12.4.0
+    validations:
+      required: true
+
+  - type: input
+    id: plugin_version
+    attributes:
+      label: Resume Rewind Version
+      description: What version of Resume Rewind are you using?
+      placeholder: e.g. 0.1.0.0
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the Bug
+      description: Clearly explain what went wrong.
+      placeholder: Tell us what happened...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this issue?
+      placeholder: |
+        1. Start playing a movie or episode.
+        2. Stop playback before finishing.
+        3. Resume playback.
+        4. Observe the issue.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should have happened instead?
+      placeholder: Describe what you expected...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: Describe what happened...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or Screenshots
+      description: |
+        Include any relevant Jellyfin logs, browser console errors,
+        screenshots, or recordings that might help diagnose the issue.
+      placeholder: Paste logs or drag and drop screenshots here...
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before Submitting
+      options:
+        - label: I have checked existing issues for duplicates.
+          required: true
+        - label: I am using the latest available version of Resume Rewind.
+          required: false
+        - label: I have provided enough information to reproduce the issue.
+          required: true
