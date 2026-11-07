@@ -1,0 +1,76 @@
+
+name: Become a Contributor
+description: Interested in helping develop, test, or maintain Resume Rewind? Get in touch!
+title: "[Contributor]: "
+labels:
+  - contributor
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Interested in helping with Resume Rewind?
+
+        Resume Rewind is a personal, community-driven project, and contributions are always welcome!
+
+        Whether you're a developer, tester, or simply someone interested in helping keep the plugin up to date, we'd love to hear from you.
+
+  - type: input
+    id: name
+    attributes:
+      label: Name or Preferred Username
+      placeholder: How should we address you?
+    validations:
+      required: true
+
+  - type: input
+    id: contact
+    attributes:
+      label: Preferred Contact Method
+      description: GitHub username, Discord username, or another way to reach you.
+      placeholder: e.g. @username
+    validations:
+      required: true
+
+  - type: dropdown
+    id: contribution_type
+    attributes:
+      label: How Would You Like to Help?
+      description: Select the area you're most interested in.
+      multiple: true
+      options:
+        - Plugin Development
+        - Keeping the Plugin Updated
+        - Testing and Compatibility
+        - Bug Fixes
+        - Documentation
+        - Community Support
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: experience
+    attributes:
+      label: Experience and Background
+      description: Tell us a little about your experience, skills, or familiarity with Jellyfin.
+      placeholder: You don't need to be an expert to contribute!
+    validations:
+      required: false
+
+  - type: textarea
+    id: message
+    attributes:
+      label: Tell Us More
+      description: Why are you interested in contributing? What would you like to help with?
+      placeholder: Introduce yourself and tell us what you have in mind...
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for your interest in helping with Resume Rewind!
+
+        Submitting this form doesn't automatically grant repository access or maintainer permissions. I'll reach out using your preferred contact method.
