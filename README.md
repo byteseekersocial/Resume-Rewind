@@ -1,103 +1,3 @@
-# Resume Rewind
-
-A Jellyfin plugin that rewinds playback when resuming movies and TV episodes.
-
-## About
-
-Resume Rewind was created as a personal project because I couldn't find another solution that provided the resume-rewind behavior I wanted in Jellyfin.
-
-The goal is simple: when you resume watching something, automatically rewind a configurable number of seconds so you don't miss the end of the scene or anything that happened before you stopped watching.
-
-This is an independent, community-based project. Contributions, suggestions, bug reports, and new ideas are always welcome!
-
-**Anyone interested in becoming a contributor is welcome to message me.** You don't need to be an expert to get involved.
-
-## Features
-
-- Automatically rewinds playback when resuming.
-- Separate settings for TV episodes and movies.
-- Enable or disable rewind independently for movies and episodes.
-- Configurable rewind duration.
-- Server-side implementation, without requiring a separate client modification.
-
-## Client Compatibility
-
-Compatibility is still being tested.
-
-The following clients are currently **known to work**:
-
-| Jellyfin Client | Status |
-|---|---|
-| Jellyfin Web | Confirmed working |
-| Roku | Confirmed working |
-| Android TV | Not yet tested |
-| Android Mobile | Confirmed working |
-| iOS | Confirmed working |
-| Swiftfin | Confirmed working |
-| Xbox client | Confirmed working |
-| Tizen TV | Not yet tested |
-| WebOS Client | Not yet tested |
-| Google TV | Not yet tested |
-| Desktop clients | Confirmed working |
-| Other clients | Not yet tested |
-
-Compatibility with untested clients is not guaranteed. Additional testing and community feedback are welcome!
-
-## Configuration
-
-Resume Rewind currently provides administrator-configurable settings for:
-
-### TV Episodes
-- Enable or disable episode rewind.
-- Set the number of seconds to rewind.
-
-### Movies
-- Enable or disable movie rewind.
-- Set the number of seconds to rewind.
-
-The rewind duration can be configured between 0 and 60 seconds.
-
-Per-user configuration is a planned improvement.
-
-## Installation
-
-Resume Rewind is distributed through a Jellyfin plugin repository.
-
-1. Open your Jellyfin Dashboard.
-2. Navigate to **Plugins → Repositories**.
-3. Add the following repository:
-
-   **Repository Name:** Resume Rewind Testing
-
-   **Repository URL:**
-   `https://raw.githubusercontent.com/byteseekersocial/Resume-Rewind/latest/manifest.json`
-   **Testing URL:**
-   `https://raw.githubusercontent.com/byteseekersocial/Resume-Rewind/testing/manifest.json`
-
-5. Save the repository and refresh the plugin catalog.
-6. Find **Resume Rewind** and install it.
-7. Restart your Jellyfin server.
-8. Open the Resume Rewind configuration page under your installed plugins.
-
-> **Note:** The `testing` repository contains development releases. Features and behavior may change as development continues.
-
-## Community & Contributions
-
-Resume Rewind is a personal project, but it is also intended to be community-driven.
-
-I welcome:
-- Bug reports and troubleshooting help.
-- Feature requests and suggestions.
-- Testing on additional Jellyfin clients.
-- Code contributions and improvements.
-- Documentation improvements.
-
-If you would like to help develop Resume Rewind or become a contributor, feel free to message me through GitHub.
-
-You can also open an issue in this repository to report a problem or suggest an improvement.
-
-Every bit of feedback helps!
-
 ## Development
 
 Resume Rewind is built using:
@@ -105,25 +5,165 @@ Resume Rewind is built using:
 - C#
 - .NET 10
 - Jellyfin Plugin SDK / API
-- GitHub Actions for automated builds and releases
+- Newtonsoft.Json
+- GitHub Actions
 
-The `testing` branch is used for active development and testing. Once changes are stable, they will be moved into the `latest` branch for stable releases.
+### Requirements
 
-## Roadmap
+- Git
+- .NET 10 SDK
+- Visual Studio, Visual Studio Code, or another C# editor
 
-- [x] Initial plugin implementation.
-- [x] Separate movie and episode rewind settings.
-- [x] Jellyfin Web compatibility.
-- [x] Roku compatibility.
-- [x] Automated GitHub release workflow.
-- [ ] Per-user rewind preferences.
-- [ ] More configuration options.
-- [x] Stable release through the `latest` branch.
+### Clone the Repository
 
-## License
+```powershell
+git clone https://github.com/byteseekersocial/Resume-Rewind.git
+cd Resume-Rewind
+```
 
-See [LICENSE](LICENSE) for licensing information.
+### Branches
 
----
+| Branch | Purpose |
+|---|---|
+| `testing` | Development and testing releases |
+| `latest` | Stable releases |
 
-**Resume Rewind is an independent community project and is not an official Jellyfin project.**
+New features should be developed and tested on `testing` before being promoted to `latest`.
+
+## Creating a New Release
+
+The following instructions describe the manual release process using Windows PowerShell.
+
+Replace `VERSION` with the new version number throughout these instructions. For example, `0.1.2.6`.
+
+### 1. Update the Version
+
+Before building, update the plugin version in the project file:
+
+`Jellyfin.Plugin.Template/Jellyfin.Plugin.Template.csproj`
+
+Update the package, assembly, and file version values to the new version.
+
+Commit and push your changes to the appropriate branch (`testing` or `latest`).
+
+### 2. Build the Plugin
+
+From the repository's root directory, run:
+
+```powershell
+dotnet build .\Jellyfin.Plugin.Template\Jellyfin.Plugin.Template.csproj -c Release
+```
+
+Make sure the build succeeds before continuing.
+
+### 3. Create the Release ZIP
+
+Run:
+
+```powershell
+$version = "VERSION"
+$source = ".\Jellyfin.Plugin.Template\bin\Release\net10.0"
+$destination = ".\release\resume-rewind_$version.zip"
+
+New-Item -ItemType Directory -Force -Path ".\release" | Out-Null
+
+Compress-Archive -Path `
+    "$source\ResumeRewind.dll", `
+    "$source\ResumeRewind.deps.json", `
+    "$source\ResumeRewind.pdb", `
+    "$source\ResumeRewind.xml" `
+    -DestinationPath $destination -Force
+```
+
+The ZIP should contain:
+
+```text
+ResumeRewind.dll
+ResumeRewind.deps.json
+ResumeRewind.pdb
+ResumeRewind.xml
+```
+
+### 4. Verify the ZIP
+
+Check its contents:
+
+```powershell
+tar -tf ".\release\resume-rewind_VERSION.zip"
+```
+
+Calculate its MD5 checksum:
+
+```powershell
+Get-FileHash ".\release\resume-rewind_VERSION.zip" -Algorithm MD5
+```
+
+Copy the resulting checksum. You will need it for the plugin manifest.
+
+### 5. Update the Manifest
+
+Open the manifest for the branch you are releasing:
+
+- Stable: `manifest.json` on `latest`.
+- Testing: `manifest.json` on `testing`.
+
+Update the existing release entry with:
+
+- New version number.
+- New ZIP download URL.
+- New MD5 checksum.
+- Current UTC timestamp.
+
+Generate a timestamp using PowerShell:
+
+```powershell
+(Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+```
+
+The ZIP download URL follows this format:
+
+```text
+https://github.com/byteseekersocial/Resume-Rewind/releases/download/vVERSION/resume-rewind_VERSION.zip
+```
+
+For a testing release, use the corresponding testing release tag instead.
+
+Keep the manifest's existing JSON structure and update the appropriate release entry. Make sure the JSON remains valid.
+
+### 6. Commit and Push the Manifest
+
+After updating the manifest:
+
+```powershell
+git add manifest.json
+git commit -m "Update manifest for VERSION"
+git push origin BRANCH
+```
+
+Replace `BRANCH` with `latest` or `testing`.
+
+### 7. Create a GitHub Release
+
+1. Open the [Resume Rewind GitHub Releases](https://github.com/byteseekersocial/Resume-Rewind/releases) page.
+2. Select **Draft a new release**.
+3. Create a new tag:
+   - Stable: `vVERSION`
+   - Testing: `testing-vVERSION`
+4. Select the appropriate target branch.
+5. Enter the release title, such as `Resume Rewind VERSION`.
+6. Add release notes describing the changes.
+7. Upload `resume-rewind_VERSION.zip`.
+8. For testing releases, mark the release as a pre-release.
+9. For stable releases, leave the pre-release option unchecked.
+10. Publish the release.
+
+### 8. Verify the Release
+
+After publishing:
+
+1. Open the release page and make sure the ZIP is attached.
+2. Open the branch's raw `manifest.json` URL.
+3. Verify that the new version, download URL, checksum, and timestamp are correct.
+4. Refresh the Jellyfin plugin catalog and check that the new version appears.
+
+**Important:** Publish the GitHub release and upload the ZIP before relying on the manifest's download URL. Otherwise, Jellyfin may try to download a file that does not exist yet.
