@@ -2,6 +2,11 @@
 
 A Jellyfin plugin that automatically rewinds playback when resuming movies and TV episodes.
 
+## Websites
+
+- Go to our [website](https://resume-rewind.byteseeker.cc) to see everything without straining your eyes.
+- Go to [this site](https://rr.byteseeker.cc) to see this README better.
+
 ## Features
 
 - Automatically rewinds playback when resuming.
