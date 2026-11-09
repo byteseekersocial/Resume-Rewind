@@ -1,6 +1,8 @@
-using MediaBrowser.Controller;
+﻿using MediaBrowser.Controller;
 using MediaBrowser.Controller.Plugins;
+using MediaBrowser.Model.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using ResumeRewind.Services;
 
 namespace ResumeRewind.Configuration;
 
@@ -15,5 +17,7 @@ public class UserPreferencesServiceRegistrator : IPluginServiceRegistrator
         IServerApplicationHost applicationHost)
     {
         serviceCollection.AddSingleton<UserPreferencesStore>();
+        serviceCollection.AddSingleton<PluginPagesIntegration>();
+        serviceCollection.AddSingleton<IScheduledTask, PluginPagesStartupTask>();
     }
 }

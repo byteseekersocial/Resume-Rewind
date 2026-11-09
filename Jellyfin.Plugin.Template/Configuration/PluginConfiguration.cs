@@ -1,4 +1,4 @@
-using MediaBrowser.Model.Plugins;
+﻿using MediaBrowser.Model.Plugins;
 
 namespace ResumeRewind.Configuration;
 

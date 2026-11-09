@@ -156,6 +156,15 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     {
         UserPreferences preferences = _preferencesStore.Get(user.Id);
 
+        _logger.LogInformation(
+            "Resume Rewind diagnostics: User={User}, HasCustomEpisodeSettings={CustomEpisodes}, UserEpisodesEnabled={UserEnabled}, UserEpisodeSeconds={UserSeconds}, ServerEpisodesEnabled={ServerEnabled}, ServerEpisodeSeconds={ServerSeconds}",
+            user.Username,
+            preferences.HasCustomEpisodeSettings,
+            preferences.EpisodesEnabled,
+            preferences.EpisodeRewindSeconds,
+            Configuration.EpisodesEnabled,
+            Configuration.EpisodeRewindSeconds);
+
         bool hasCustomSettings = isEpisode
             ? preferences.HasCustomEpisodeSettings
             : preferences.HasCustomMovieSettings;
