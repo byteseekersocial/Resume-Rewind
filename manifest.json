@@ -13,6 +13,7 @@
         "targetAbi": "12.4.0.0",
         "sourceUrl": "https://github.com/byteseekersocial/Resume-Rewind/releases/download/testing-v0.1.2.4/resume-rewind_0.1.2.4.zip",
         "checksum": "7D4606F4D6AB7F0022AB36E6CB626EF0",
+        "timestamp": "2026-11-07T20:24:00Z"
       },
       {
         "version": "0.1.2.3",
@@ -20,6 +21,7 @@
         "targetAbi": "12.4.0.0",
         "sourceUrl": "https://github.com/byteseekersocial/Resume-Rewind/releases/download/testing-v0.1.2.3/resume-rewind_0.1.2.3.zip",
         "checksum": "823A5F27EADE871E3194E770D022E2EC",
+        "timestamp": "2026-11-07T20:24:00Z"
       },
       {
         "version": "0.1.2.2",
@@ -27,6 +29,7 @@
         "targetAbi": "12.4.0.0",
         "sourceUrl": "https://github.com/byteseekersocial/Resume-Rewind/releases/download/testing-v0.1.2.2/resume-rewind_0.1.2.2.zip",
         "checksum": "7BC9CC1E4A6734A9FF787436DCFF1B78",
+        "timestamp": "2026-11-07T20:24:00Z"
       },
       {
         "version": "0.1.0.0",
@@ -34,6 +37,7 @@
         "targetAbi": "12.4.0.0",
         "sourceUrl": "https://github.com/byteseekersocial/Resume-Rewind/releases/download/testing-v0.1.0.0/resume-rewind_0.1.0.0.zip",
         "checksum": "02921358eab92bf96f593a1cd9c47204",
+        "timestamp": "2026-11-07T09:29:38.984512+00:00"
       }
     ]
   }
