@@ -90,19 +90,26 @@
                 url: apiUrl,
                 dataType: "json"
             }).then(data => {
-                preferences = data;
+                preferences = {
+                    hasCustomEpisodeSettings: data.HasCustomEpisodeSettings,
+                    episodesEnabled: data.EpisodesEnabled,
+                    episodeRewindSeconds: data.EpisodeRewindSeconds,
+                    hasCustomMovieSettings: data.HasCustomMovieSettings,
+                    moviesEnabled: data.MoviesEnabled,
+                    movieRewindSeconds: data.MovieRewindSeconds
+                };
 
                 document.getElementById("episodesEnabled").checked =
-                    data.episodesEnabled;
+                    preferences.episodesEnabled;
 
                 document.getElementById("episodeSeconds").value =
-                    data.episodeRewindSeconds;
+                    preferences.episodeRewindSeconds;
 
                 document.getElementById("moviesEnabled").checked =
-                    data.moviesEnabled;
+                    preferences.moviesEnabled;
 
                 document.getElementById("movieSeconds").value =
-                    data.movieRewindSeconds;
+                    preferences.movieRewindSeconds;
             }).catch(error => {
                 console.error(error);
                 showStatus("Could not load your preferences.");
