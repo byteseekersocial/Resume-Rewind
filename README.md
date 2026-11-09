@@ -51,11 +51,11 @@ Compatibility testing is ongoing. Community testing and feedback are welcome!
 
 Bug reports, feature requests, suggestions, and contributions are always welcome.
 
-- [Report a Bug](https://github.com/byteseekersocial/Resume-Rewind/issues)
-- [Request a Feature](https://github.com/byteseekersocial/Resume-Rewind/issues)
+- [Report a Bug](https://github.com/byteseekersocial/Resume-Rewind/issues/new?template=bug_report.yml)
+- [Request a Feature](https://github.com/byteseekersocial/Resume-Rewind/issues/new?template=feature_request.yml)
 - [View the Source Code](https://github.com/byteseekersocial/Resume-Rewind)
 
-Anyone interested in becoming a contributor is welcome to [reach out!](https://github.com/byteseekersocial/Resume-Rewind/issues)
+Anyone interested in becoming a contributor is welcome to [reach out!](https://github.com/byteseekersocial/Resume-Rewind/issues/new?template=contributor_application.yml)
 
 ## Development
 
