@@ -118,14 +118,36 @@
 
         function resetEpisodes() {
             preferences.hasCustomEpisodeSettings = false;
-            loadPreferences();
-            showStatus("Episode settings will use server defaults after saving.");
+
+            ApiClient.ajax({
+                type: "PUT",
+                url: apiUrl,
+                data: JSON.stringify(preferences),
+                contentType: "application/json"
+            }).then(() => {
+                showStatus("Episode settings reset to server defaults.");
+                loadPreferences();
+            }).catch(error => {
+                console.error(error);
+                showStatus("Could not reset episode settings.");
+            });
         }
 
         function resetMovies() {
             preferences.hasCustomMovieSettings = false;
-            loadPreferences();
-            showStatus("Movie settings will use server defaults after saving.");
+
+            ApiClient.ajax({
+                type: "PUT",
+                url: apiUrl,
+                data: JSON.stringify(preferences),
+                contentType: "application/json"
+            }).then(() => {
+                showStatus("Movie settings reset to server defaults.");
+                loadPreferences();
+            }).catch(error => {
+                console.error(error);
+                showStatus("Could not reset movie settings.");
+            });
         }
 
         function savePreferences() {
