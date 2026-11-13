@@ -49,16 +49,6 @@ Want to work directly on the project? You're welcome to!
 
 Please keep contributions focused and avoid unrelated changes in the same Pull Request.
 
-## Testing
-
-Resume Rewind currently has confirmed client-side functionality on:
-
-- Jellyfin Web
-- Jellyfin for iOS
-- Roku
-
-Testing on additional clients is especially appreciated!
-
 If you're making changes, please test them on the clients your changes affect whenever possible. Include your testing results in your Pull Request.
 
 ## Need Help or Want to Become a Contributor?
